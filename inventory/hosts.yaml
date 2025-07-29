@@ -1,0 +1,87 @@
+all:
+  hosts:
+    n1:
+      ansible_host: 10.40.0.100
+      network:
+        ceph_public: true
+        ceph_cluster: true
+        ceph_mgmt: true
+        mongo_mongos: true
+        mongo_shard: true
+        mongo_config: true
+      ufw:
+        reset: true
+        ceph: true
+        mongo_mongos: true
+        mongo_shard: true
+        mongo_config: true
+        vault_server: true
+    tableTopNode1:
+      ansible_host: 10.40.0.101
+      network:
+        ceph_public: true
+        ceph_cluster: true
+        ceph_mgmt: true
+        mongo_mongos: true
+        mongo_shard: true
+        mongo_config: true
+      ufw:
+        reset: true
+        ceph: true
+        mongo_mongos: true
+        mongo_shard: true
+        mongo_config: true
+        vault_server: false
+    tableTopNode2:
+      ansible_host: 10.40.0.102
+      network:
+        ceph_public: true
+        ceph_cluster: true
+        ceph_mgmt: true
+        mongo_mongos: true
+        mongo_shard: true
+        mongo_config: true
+      ufw:
+        reset: true
+        ceph: true
+        mongo_mongos: true
+        mongo_shard: true
+        mongo_config: true
+        vault_server: false
+    tableTopNode3:
+      ansible_host: 10.40.0.103
+      network:
+        ceph_public: true
+        ceph_cluster: true
+        ceph_mgmt: true
+        mongo_mongos: true
+        mongo_shard: true
+        mongo_config: true
+      ufw:
+        reset: true
+        ceph: true
+        mongo_mongos: true
+        mongo_shard: true
+        mongo_config: true
+        vault_server: false
+
+  children:
+    physical:
+      hosts:
+        n1:
+
+    vms:
+      hosts:
+        tableTopNode1:
+        tableTopNode2:
+        tableTopNode3:
+
+    remove-physical:
+      hosts:
+        n1:
+
+    remove-vms:
+      hosts:
+        tableTopNode1:
+        tableTopNode2:
+        tableTopNode3:

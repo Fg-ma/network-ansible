@@ -1,0 +1,8 @@
+# Subnets
+admin_subnet: 5
+ceph_public_subnet: 10
+ceph_cluster_subnet: 20
+ceph_management_subnet: 30
+mongo_mongos_subnet: 40
+mongo_shard_subnet: 50
+mongo_config_subnet: 60

@@ -1,0 +1,9 @@
+- name: Init virtual machine networking
+  hosts: physical
+  become: true
+  vars_files:
+    - ../vars/share.yaml
+    - ../vars/vm.yaml
+  roles:
+    - role: ufw
+    - role: init-networking-vm

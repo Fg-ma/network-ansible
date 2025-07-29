@@ -1,0 +1,9 @@
+- name: Remove virtual machine networking
+  hosts: remove-physical
+  become: true
+  vars_files:
+    - ../vars/share.yaml
+    - ../vars/vm.yaml
+  roles:
+    - role: remove-ufw
+    - role: remove-networking-vm

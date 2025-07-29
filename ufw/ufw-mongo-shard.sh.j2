@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# 10.{{ mongo_shard_subnet }}.0.0/16 Mongo shard
+sudo ufw allow from 10.{{ mongo_shard_subnet }}.0.0/16 to any port 27019 proto tcp
+sudo ufw allow from 10.{{ mongo_shard_subnet }}.0.0/16 to any port 27020 proto tcp
+sudo ufw allow from 10.{{ mongo_shard_subnet }}.0.0/16 to any port 27021 proto tcp

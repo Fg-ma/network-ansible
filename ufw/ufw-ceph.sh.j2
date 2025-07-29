@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# 10.{{ ceph_public_subnet }}.0.0/16 Ceph public
+sudo ufw allow from 10.{{ ceph_public_subnet }}.0.0/16 to any port 9100 proto tcp
+sudo ufw allow from 10.{{ ceph_public_subnet }}.0.0/16 to any port 6789 proto tcp
+sudo ufw allow from 10.{{ ceph_public_subnet }}.0.0/16 to any port 3300 proto tcp
+sudo ufw allow from 10.{{ ceph_public_subnet }}.0.0/16 to any port 6800:7300 proto tcp
+sudo ufw allow from 10.{{ ceph_public_subnet }}.0.0/16 to any port 3000 proto tcp
+
+# 10.{{ ceph_cluster_subnet }}.0.0/16 Ceph cluster
+sudo ufw allow from 10.{{ ceph_cluster_subnet }}.0.0/16 to any port 9100 proto tcp
+sudo ufw allow from 10.{{ ceph_cluster_subnet }}.0.0/16 to any port 6789 proto tcp
+sudo ufw allow from 10.{{ ceph_cluster_subnet }}.0.0/16 to any port 3300 proto tcp
+sudo ufw allow from 10.{{ ceph_cluster_subnet }}.0.0/16 to any port 6800:7300 proto tcp
+sudo ufw allow from 10.{{ ceph_cluster_subnet }}.0.0/16 to any port 3000 proto tcp
+
+# 10.{{ ceph_management_subnet }}.0.0/16 Ceph management
+sudo ufw allow from 10.{{ ceph_management_subnet }}.0.0/16 to any port 9100 proto tcp
+sudo ufw allow from 10.{{ ceph_management_subnet }}.0.0/16 to any port 6789 proto tcp
+sudo ufw allow from 10.{{ ceph_management_subnet }}.0.0/16 to any port 3300 proto tcp
+sudo ufw allow from 10.{{ ceph_management_subnet }}.0.0/16 to any port 6800:7300 proto tcp
+sudo ufw allow from 10.{{ ceph_management_subnet }}.0.0/16 to any port 3000 proto tcp

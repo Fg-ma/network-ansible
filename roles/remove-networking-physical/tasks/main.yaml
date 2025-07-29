@@ -1,0 +1,80 @@
+- name: Render interfaces file
+  template:
+    src: interfaces.j2
+    dest: "/etc/network/interfaces"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Render hosts file
+  template:
+    src: hosts.j2
+    dest: "/etc/hosts"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Enable IPv4 forwarding in sysctl
+  ansible.builtin.sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
+    reload: yes
+
+- name: Install iptables-persistent for rule persistence
+  ansible.builtin.apt:
+    name: iptables-persistent
+    state: present
+    update_cache: yes
+  vars:
+    ansible_debian_frontend: noninteractive
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+
+- name: Add NAT masquerade rule to POSTROUTING chain
+  ansible.posix.iptables:
+    table: nat
+    chain: POSTROUTING
+    out_interface: br-admin
+    source: 10.{{ admin_subnet }}.0.0/16
+    destination: 10.{{ admin_subnet }}.0.0/16
+    destination_inverse: yes
+    jump: MASQUERADE
+    comment: "Masquerade outbound from 10.{{ admin_subnet }}.0.0/16"
+    insert: yes
+  notify: Save iptables rules
+
+- name: Ensure netfilter-persistent is saved on boot (Debian/Ubuntu)
+  ansible.builtin.command: netfilter-persistent save
+  args:
+    warn: false
+  when: ansible_facts['distribution'] in ['Debian','Ubuntu']
+
+- name: Set UFW default forward policy to ACCEPT
+  ansible.builtin.lineinfile:
+    path: /etc/default/ufw
+    regexp: "^DEFAULT_FORWARD_POLICY="
+    line: 'DEFAULT_FORWARD_POLICY="ACCEPT"'
+    backrefs: yes
+
+- name: Insert NAT rules into /etc/ufw/before.rules
+  ansible.builtin.blockinfile:
+    path: /etc/ufw/before.rules
+    marker: "# {mark} ANSIBLE NAT rules for br-admin"
+    block: |
+      *nat
+      :POSTROUTING ACCEPT [0:0]
+      # Masquerade outbound from your private networks
+      -A POSTROUTING -s 10.{{ admin_subnet }}.0.0/16 -o br-admin -j MASQUERADE
+      COMMIT
+
+- name: Reload UFW to apply policy and before.rules
+  ansible.builtin.command: ufw reload
+  args:
+    warn: false
+
+- name: Ensure systemd-networkd is enabled, started, and restarted
+  ansible.builtin.systemd:
+    name: systemd-networkd
+    enabled: yes
+    state: restarted
