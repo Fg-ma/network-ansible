@@ -24,5 +24,5 @@ sudo ufw allow from 10.{{ mongo_shard_subnet }}.0.0/16 to any port 22 proto tcp
 sudo ufw allow from 10.{{ mongo_config_subnet }}.0.0/16 to any port 22 proto tcp
 
 # Enable UFW
-sudo ufw enable
+sudo ufw --force enable
 

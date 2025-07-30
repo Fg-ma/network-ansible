@@ -1,5 +1,5 @@
 - name: Init virtual machine networking
-  hosts: physical
+  hosts: vms
   become: true
   vars_files:
     - ../vars/share.yaml

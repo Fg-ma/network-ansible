@@ -1,5 +1,5 @@
 - name: Remove physical machine networking
-  hosts: remove-physical
+  hosts: remove_physical
   become: true
   vars_files:
     - ../vars/share.yaml

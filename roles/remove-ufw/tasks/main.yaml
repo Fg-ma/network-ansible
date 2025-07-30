@@ -1,102 +1,13 @@
-- name: Install ufw packages
-  apt:
-    name: ufw
-    state: present
-    update_cache: yes
-  become: true
+- name: Render ufw-reset script
+  template:
+    src: "{{ playbook_dir }}/../ufw/ufw-reset.sh.j2"
+    dest: "/tmp/ufw-reset.sh"
+    mode: "0755"
 
-- block:
-    - name: Render ufw-reset script
-      ansible.builtin.template:
-        src: ufw-reset.sh.j2
-        dest: "/tmp/ufw-reset.sh"
-        mode: "0755"
+- name: Execute ufw-reset script
+  command: "/tmp/ufw-reset.sh"
 
-    - name: Execute ufw-reset script
-      ansible.builtin.command: "/tmp/ufw-reset.sh"
-
-    - name: Remove ufw-reset script
-      ansible.builtin.file:
-        path: "/tmp/ufw-reset.sh"
-        state: absent
-  when: ufw.reset | default(false) | bool
-
-- block:
-    - name: Render ufw-vault-server script
-      ansible.builtin.template:
-        src: ufw-vault-server.sh.j2
-        dest: "/tmp/ufw-vault-server.sh"
-        mode: "0755"
-
-    - name: Execute ufw-vault-server script
-      ansible.builtin.command: "/tmp/ufw-vault-server.sh"
-
-    - name: Remove ufw-vault-server script
-      ansible.builtin.file:
-        path: "/tmp/ufw-vault-server.sh"
-        state: absent
-  when: ufw.vault_server | default(false) | bool
-
-- block:
-    - name: Render ufw-ceph script
-      ansible.builtin.template:
-        src: ufw-ceph.sh.j2
-        dest: "/tmp/ufw-ceph.sh"
-        mode: "0755"
-
-    - name: Execute ufw-ceph script
-      ansible.builtin.command: "/tmp/ufw-ceph.sh"
-
-    - name: Remove ufw-ceph script
-      ansible.builtin.file:
-        path: "/tmp/ufw-ceph.sh"
-        state: absent
-  when: ufw.ceph | default(false) | bool
-
-- block:
-    - name: Render ufw-mongo-mongos script
-      ansible.builtin.template:
-        src: ufw-mongo-mongos.sh.j2
-        dest: "/tmp/ufw-mongo-mongos.sh"
-        mode: "0755"
-
-    - name: Execute ufw-mongo-mongos script
-      ansible.builtin.command: "/tmp/ufw-mongo-mongos.sh"
-
-    - name: Remove ufw-mongo-mongos script
-      ansible.builtin.file:
-        path: "/tmp/ufw-mongo-mongos.sh"
-        state: absent
-  when: ufw.mongo_mongos | default(false) | bool
-
-- block:
-    - name: Render ufw-mongo-shard script
-      ansible.builtin.template:
-        src: ufw-mongo-shard.sh.j2
-        dest: "/tmp/ufw-mongo-shard.sh"
-        mode: "0755"
-
-    - name: Execute ufw-mongo-shard script
-      ansible.builtin.command: "/tmp/ufw-mongo-shard.sh"
-
-    - name: Remove ufw-mongo-shard script
-      ansible.builtin.file:
-        path: "/tmp/ufw-mongo-shard.sh"
-        state: absent
-  when: ufw.mongo_shard | default(false) | bool
-
-- block:
-    - name: Render ufw-mongo-config script
-      ansible.builtin.template:
-        src: ufw-mongo-config.sh.j2
-        dest: "/tmp/ufw-mongo-config.sh"
-        mode: "0755"
-
-    - name: Execute ufw-mongo-config script
-      ansible.builtin.command: "/tmp/ufw-mongo-config.sh"
-
-    - name: Remove ufw-mongo-config script
-      ansible.builtin.file:
-        path: "/tmp/ufw-mongo-config.sh"
-        state: absent
-  when: ufw.mongo_config | default(false) | bool
+- name: Remove ufw-reset script
+  file:
+    path: "/tmp/ufw-reset.sh"
+    state: absent

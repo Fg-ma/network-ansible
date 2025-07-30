@@ -1,2 +1,2 @@
 source ~/.venvs/ansible-vault/bin/activate
-ansible-playbook playbooks/init-config-servers.yaml
+ansible-playbook playbooks/init-networking-physical.yaml
