@@ -5,5 +5,5 @@
     - ../vars/share.yaml
     - ../vars/physical.yaml
   roles:
-    - role: remove-ufw
+    - role: remove-nftables
     - role: remove-networking-physical

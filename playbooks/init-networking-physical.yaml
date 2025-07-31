@@ -5,5 +5,5 @@
     - ../vars/share.yaml
     - ../vars/physical.yaml
   roles:
-    - role: ufw
+    - role: nftables
     - role: init-networking-physical

@@ -5,5 +5,5 @@
     - ../vars/share.yaml
     - ../vars/vm.yaml
   roles:
-    - role: ufw
+    - role: nftables
     - role: init-networking-vm

@@ -5,10 +5,10 @@ auto lo
 iface lo inet loopback
 
 # Admin Bridge
-auto br-admin
-iface br-admin inet dhcp
+auto {{ admin_bridge }}
+iface {{ admin_bridge }} inet dhcp
     bridge_ports enp30s0
     bridge_stp off
     bridge_fd 0
     bridge_maxwait 0
-    up ip addr add 10.{{ admin_subnet }}.0.{{ ansible_host.split('.')[-1] }}/16 dev br-admin
+    up ip addr add 10.{{ admin_subnet }}.0.{{ ansible_host.split('.')[-1] }}/16 dev {{ admin_bridge }}

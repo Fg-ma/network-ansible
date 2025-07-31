@@ -36,11 +36,11 @@ iface enp13s0 inet static
 	netmask 255.255.0.0
 
 {% endif %}
-{% if network.mongo_mongos %}
+{% if network.mongos %}
 # Mongo Mongos
 auto enp14s0
 iface enp14s0 inet static
-	address 10.{{ mongo_mongos_subnet }}.0.{{ ansible_host.split('.')[-1] }}
+	address 10.{{ mongos_subnet }}.0.{{ ansible_host.split('.')[-1] }}
 	netmask 255.255.0.0
 
 {% endif %}

@@ -5,5 +5,5 @@
     - ../vars/share.yaml
     - ../vars/vm.yaml
   roles:
-    - role: remove-ufw
+    - role: remove-nftables
     - role: remove-networking-vm

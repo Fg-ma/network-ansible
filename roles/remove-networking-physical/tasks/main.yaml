@@ -21,53 +21,6 @@
     state: present
     reload: yes
 
-- name: Remove iptables-persistent
-  ansible.builtin.apt:
-    name: iptables-persistent
-    state: absent
-
-- name: Remove NAT masquerade rule from POSTROUTING
-  ansible.posix.iptables:
-    table: nat
-    chain: POSTROUTING
-    out_interface: br-admin
-    source: 10.{{ admin_subnet }}.0.0/16
-    destination: 10.{{ admin_subnet }}.0.0/16
-    destination_inverse: yes
-    jump: MASQUERADE
-    state: absent
-    comment: "Remove NAT rule"
-
-- name: Flush all iptables rules
-  ansible.builtin.command: iptables -F
-  become: true
-
-- name: Clear all NAT table rules
-  ansible.builtin.command: iptables -t nat -F
-  become: true
-
-- name: Save cleared rules
-  ansible.builtin.command: netfilter-persistent save
-  when: ansible_facts['distribution'] in ['Debian','Ubuntu']
-
-- name: Reset UFW default forward policy to DROP
-  ansible.builtin.lineinfile:
-    path: /etc/default/ufw
-    regexp: "^DEFAULT_FORWARD_POLICY="
-    line: 'DEFAULT_FORWARD_POLICY="DROP"'
-    backrefs: yes
-
-- name: Remove NAT block from /etc/ufw/before.rules
-  ansible.builtin.blockinfile:
-    path: /etc/ufw/before.rules
-    marker: "# {mark} ANSIBLE NAT rules for br-admin"
-    state: absent
-
-- name: Reload UFW to apply policy and before.rules
-  ansible.builtin.command: ufw reload
-  args:
-    warn: false
-
 - name: Ensure systemd-networkd is enabled, started, and restarted
   ansible.builtin.systemd:
     name: systemd-networkd

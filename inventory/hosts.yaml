@@ -3,65 +3,73 @@ all:
     n1:
       ansible_host: 10.5.0.100
       ansible_connection: local
+      uplink_interface: enp30s0
       network:
         ceph_public: true
         ceph_cluster: true
         ceph_mgmt: true
-        mongo_mongos: true
+        mongos: true
         mongo_shard: true
         mongo_config: true
-      ufw:
+      nftables:
+        postrouting: true
         reset: true
         ceph: true
-        mongo_mongos: false
+        mongos: false
         mongo_shard: false
         mongo_config: false
         vault_server: true
     tableTopNode1:
       ansible_host: 10.5.0.101
+      uplink_interface: enp30s0
       network:
         ceph_public: true
         ceph_cluster: true
         ceph_mgmt: true
-        mongo_mongos: true
+        mongos: true
         mongo_shard: true
         mongo_config: true
-      ufw:
+      nftables:
+        postrouting: false
         reset: true
         ceph: true
-        mongo_mongos: true
+        mongos: true
         mongo_shard: true
         mongo_config: true
         vault_server: false
     tableTopNode2:
       ansible_host: 10.5.0.102
+      uplink_interface: enp30s0
       network:
         ceph_public: true
         ceph_cluster: true
         ceph_mgmt: true
-        mongo_mongos: true
+        mongos: true
         mongo_shard: true
         mongo_config: true
-      ufw:
+      nftables:
+        postrouting: false
         reset: true
         ceph: true
-        mongo_mongos: true
+        mongos: true
         mongo_shard: true
         mongo_config: true
         vault_server: false
     tableTopNode3:
       ansible_host: 10.5.0.103
+      uplink_interface: enp30s0
       network:
         ceph_public: true
         ceph_cluster: true
         ceph_mgmt: true
-        mongo_mongos: true
+        mongos: true
         mongo_shard: true
         mongo_config: true
-      ufw:
+      nftables:
+        postrouting: false
         reset: true
         ceph: true
-        mongo_mongos: true
+        mongos: true
         mongo_shard: true
         mongo_config: true
         vault_server: false
@@ -87,7 +95,7 @@ all:
         tableTopNode2:
         tableTopNode3:
 
-    ufw:
+    nftables:
       hosts:
         n1:
         # tableTopNode1:

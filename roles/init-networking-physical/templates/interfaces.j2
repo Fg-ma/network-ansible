@@ -5,18 +5,18 @@ auto lo
 iface lo inet loopback
 
 # Admin Bridge
-auto br-admin
-iface br-admin inet dhcp
+auto {{ admin_bridge }}
+iface {{ admin_bridge }} inet dhcp
     bridge_ports enp30s0
     bridge_stp off
     bridge_fd 0
     bridge_maxwait 0
-    up ip addr add 10.{{ admin_subnet }}.0.{{ ansible_host.split('.')[-1] }}/16 dev br-admin
+    up ip addr add 10.{{ admin_subnet }}.0.{{ ansible_host.split('.')[-1] }}/16 dev {{ admin_bridge }}
 
 {% if network.ceph_public %}
 # Ceph Public Bridge
-auto br-ceph-public
-iface br-ceph-public inet static
+auto {{ ceph_public_bridge }}
+iface {{ ceph_public_bridge }} inet static
     address 10.{{ ceph_public_subnet }}.0.{{ ansible_host.split('.')[-1] }}
     netmask 255.255.0.0
     bridge_ports none
@@ -27,8 +27,8 @@ iface br-ceph-public inet static
 {% endif %}
 {% if network.ceph_cluster %}
 # Ceph Cluster Bridge
-auto br-ceph-cluster
-iface br-ceph-cluster inet static
+auto {{ ceph_cluster_bridge }}
+iface {{ ceph_cluster_bridge }} inet static
     address 10.{{ ceph_cluster_subnet }}.0.{{ ansible_host.split('.')[-1] }}
     netmask 255.255.0.0
     bridge_ports none
@@ -39,8 +39,8 @@ iface br-ceph-cluster inet static
 {% endif %}
 {% if network.ceph_mgmt %}
 # Ceph Management Bridge
-auto br-ceph-management
-iface br-ceph-management inet static
+auto {{ ceph_management_bridge }}
+iface {{ ceph_management_bridge }} inet static
     address 10.{{ ceph_management_subnet }}.0.{{ ansible_host.split('.')[-1] }}
     netmask 255.255.0.0
     bridge_ports none
@@ -49,11 +49,11 @@ iface br-ceph-management inet static
     bridge_maxwait 0
 
 {% endif %}
-{% if network.mongo_mongos %}
+{% if network.mongos %}
 # Mongo Mongos Bridge
-auto br-mongo-mongos
-iface br-mongo-mongos inet static
-    address 10.{{ mongo_mongos_subnet }}.0.{{ ansible_host.split('.')[-1] }}
+auto {{ mongos_bridge }}
+iface {{ mongos_bridge }} inet static
+    address 10.{{ mongos_subnet }}.0.{{ ansible_host.split('.')[-1] }}
     netmask 255.255.0.0
     bridge_ports none
     bridge_stp off
@@ -62,8 +62,8 @@ iface br-mongo-mongos inet static
 {% endif %}
 {% if network.mongo_shard %}
 # Mongo Shard Bridge
-auto br-mongo-shard
-iface br-mongo-shard inet static
+auto {{ mongo_shard_bridge }}
+iface {{ mongo_shard_bridge }} inet static
     address 10.{{ mongo_shard_subnet }}.0.{{ ansible_host.split('.')[-1] }}
     netmask 255.255.0.0
     bridge_ports none
@@ -73,8 +73,8 @@ iface br-mongo-shard inet static
 {% endif %}
 {% if network.mongo_config %}
 # Mongo Config Bridge
-auto br-mongo-config
-iface br-mongo-config inet static
+auto {{ mongo_config_bridge }}
+iface {{ mongo_config_bridge }} inet static
     address 10.{{ mongo_config_subnet }}.0.{{ ansible_host.split('.')[-1] }}
     netmask 255.255.0.0
     bridge_ports none
