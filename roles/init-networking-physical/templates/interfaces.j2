@@ -7,7 +7,7 @@ iface lo inet loopback
 # Admin Bridge
 auto {{ admin_bridge }}
 iface {{ admin_bridge }} inet dhcp
-    bridge_ports enp30s0
+    bridge_ports {{ uplink_interface }}
     bridge_stp off
     bridge_fd 0
     bridge_maxwait 0

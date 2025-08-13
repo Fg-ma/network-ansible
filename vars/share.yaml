@@ -14,3 +14,6 @@ ceph_management_subnet: 30
 mongos_subnet: 40
 mongo_shard_subnet: 50
 mongo_config_subnet: 60
+
+# Tiger vnc
+tigervnc_ip: 192.168.1.12

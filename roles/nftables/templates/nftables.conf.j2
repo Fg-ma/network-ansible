@@ -9,8 +9,10 @@ table inet filter {
     iif lo accept
     ct state established,related accept
 
-    ip saddr 192.168.1.12 tcp dport 5908 ct state new accept
+    {% if nftables.tigervnc %}
+    ip saddr {{ tigervnc_ip }} tcp dport 22 ct state new accept
 
+    {% endif %}
     {% if nftables.reset %}
     # SSH
     {% for s in [admin_subnet, ceph_public_subnet, ceph_cluster_subnet,
