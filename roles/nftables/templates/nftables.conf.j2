@@ -50,7 +50,7 @@ table inet filter {
     {% for s in [admin_subnet, ceph_public_subnet, ceph_cluster_subnet,
                 ceph_management_subnet, mongos_subnet,
                 mongo_shard_subnet, mongo_config_subnet] %}
-    ip saddr 10.{{ s }}.0.0/16 tcp dport 2223 ct state new accept
+    ip saddr 10.{{ s }}.0.0/16 tcp dport { 2223, 8200 } ct state new accept
     {% endfor %}
     {% endif %} 
   }
